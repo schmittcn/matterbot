@@ -1,0 +1,44 @@
+plugins {
+    id "java"
+    id "org.springframework.boot" version "2.3.3.RELEASE"
+    id "io.spring.dependency-management" version "1.0.10.RELEASE"
+}
+
+group = 'org.matterbot'
+version = System.env.BUILD_NUMBER ? "1.0.${System.env.BUILD_NUMBER}" : "1.0.0-SNAPSHOT"
+
+sourceCompatibility = JavaVersion.VERSION_14
+targetCompatibility = JavaVersion.VERSION_14
+
+repositories {
+    maven { url "https://repository.jboss.org/maven2/" }
+//    mavenCentral()
+}
+
+wrapper {
+    gradleVersion = '6.6'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    compile group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.9.0'
+    compile group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.9.0'
+    compile group: 'com.squareup.retrofit2', name: 'converter-scalars', version: '2.9.0'
+
+    compile group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: '4.9.0'
+    compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.14'
+    annotationProcessor 'org.projectlombok:lombok:1.18.14'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework.security:spring-security-test'
+}
+
+jar {
+    baseName = project.name
+    version = project.version
+}

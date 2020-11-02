@@ -1,0 +1,22 @@
+# GENERAL
+*.class
+build/
+dist/
+out/
+*.log
+*.log.*
+*/log/
+target
+
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+
+# Gradle
+.gradle/
+node_modules/
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iml
+
+**/application-credentials.yml

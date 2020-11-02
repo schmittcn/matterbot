@@ -1,0 +1,18 @@
+server:
+  port: ${service_port:1337}
+
+http:
+  client:
+      acceptAllCertificates: ${accept_all_cert:true}
+      verboseLogging: false
+      httpProxy: ${http_proxy_usage:false}
+      proxyHost: ${http_proxy_host:127.0.0.1}
+      proxyPort: ${http_proxy_port:3128}
+
+spring:
+  profiles:
+    include: prod-credentials
+
+client:
+  icon: "https://media.giphy.com/media/l0MYKtrxlkiYE596g/giphy.gif"
+  name: "Matterbot"
