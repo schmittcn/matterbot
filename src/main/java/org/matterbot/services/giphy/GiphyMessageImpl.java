@@ -4,13 +4,13 @@ import lombok.Builder;
 import lombok.Data;
 import org.matterbot.mattermost.MattermostMessage;
 
+import static org.matterbot.services.Constants.NEWLINE;
+
 @Data
 @Builder
 public class GiphyMessageImpl implements MattermostMessage {
     private String giphyUrl;
     private String caption;
-
-    private static final String NEWLINE = "\n";
 
     @Override
     public String getMessage() {

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.matterbot.mattermost.types.Attachments;
 import org.matterbot.mattermost.types.MattermostAttachmentMessage;
 import org.matterbot.mattermost.types.MattermostHookData;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
-import retrofit2.Response;
 
 @Slf4j
 @Service
@@ -44,16 +44,10 @@ public class MattermostServiceImpl implements MattermostService {
                                                        .text(URLDecoder.decode(text, StandardCharsets.UTF_8))
                                                        .build();
 
-        log.info("REQUEST: " + request.toString());
-        Call<String> call = mattermostInHookClient.sendMessage(hookId, request);
+        log.debug("REQUEST: " + request.toString());
+        var call = mattermostInHookClient.sendMessage(hookId, request);
 
-        Response<String> callResult = call.execute();
-        if (callResult.isSuccessful() && callResult.body() != null) {
-            return ResponseEntity.ok(callResult.body());
-        } else {
-            log.error("STATUS: {}, BODY: {}", callResult.code(), callResult.errorBody().string());
-            throw new IOException("Failed");
-        }
+        return getStringResponseEntity(call);
     }
 
     @Override
@@ -70,9 +64,14 @@ public class MattermostServiceImpl implements MattermostService {
                                                                                  .build()))
                                                  .build();
 
-        log.info("REQUEST: " + request.toString());
-        Call<String> call = mattermostInHookClient.sendAttachmentMessage(hookId, request);
+        log.debug("REQUEST: " + request.toString());
+        var call = mattermostInHookClient.sendAttachmentMessage(hookId, request);
 
+        return getStringResponseEntity(call);
+    }
+
+    @NotNull
+    private ResponseEntity<String> getStringResponseEntity(final Call<String> call) throws IOException {
         var callResult = call.execute();
         if (callResult.isSuccessful() && callResult.body() != null) {
             return ResponseEntity.ok(callResult.body());

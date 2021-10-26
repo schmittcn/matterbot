@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Data;
 import org.matterbot.mattermost.MattermostMessage;
 
+import static org.matterbot.services.Constants.NEWLINE;
+
 @Data
 @Builder
 public class OpenWeatherMessageImpl implements MattermostMessage {
@@ -16,7 +18,6 @@ public class OpenWeatherMessageImpl implements MattermostMessage {
     private String wind;
     private String weather;
     private String icon;
-    private final String NEWLINE = "\n";
     private final String ICON_BASE_URL = "http://openweathermap.org/img/w/"; //+ ICON_BASE_URL + icon + ".png" + NEWLINE
 
     @Override
