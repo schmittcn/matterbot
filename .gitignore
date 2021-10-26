@@ -20,3 +20,4 @@ node_modules/
 *.iml
 
 **/application-credentials.yml
+settings.gradle
