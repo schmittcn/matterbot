@@ -1,9 +1,8 @@
 package org.matterbot.mattermost.types;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @Builder

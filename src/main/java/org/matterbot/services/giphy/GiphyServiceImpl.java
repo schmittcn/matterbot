@@ -55,13 +55,13 @@ public class GiphyServiceImpl extends BaseURLQueryService {
                 break;
             case SEARCH:
             case SEARCH_RND:
-                Call<SearchResponse> callSearch = giphyClient.search(apiKey, term, MAX_SEARCH_RESULT);
+                var callSearch = giphyClient.search(apiKey, term, MAX_SEARCH_RESULT);
                 String url = "";
                 try {
-                    Response<SearchResponse> response = callSearch.execute();
+                    var response = callSearch.execute();
                     if (response.isSuccessful()) {
                         SearchResponse body = response.body();
-                        int indexToGet = 0;
+                        var indexToGet = 0;
                         if (strategy == Strategy.SEARCH_RND) {
                             indexToGet = getRandomNumberInRange(0, body.getData().size());
                         }
@@ -80,11 +80,11 @@ public class GiphyServiceImpl extends BaseURLQueryService {
     }
 
     public List<String> getUrlList(final String term) {
-        Call<SearchResponse> callSearch2 = giphyClient.search(apiKey, term, MAX_SEARCH_RESULT);
+        var callSearch2 = giphyClient.search(apiKey, term, MAX_SEARCH_RESULT);
         try {
-            Response<SearchResponse> response = callSearch2.execute();
+            var response = callSearch2.execute();
             if (response.isSuccessful()) {
-                SearchResponse body = response.body();
+                var body = response.body();
                 assert body != null;
                 var list = body.getData().stream().map(Gif::getImages).map(Images::getDownsized)
                         .map(DownsizedImage::getUrl).collect(Collectors.toList());
@@ -101,7 +101,7 @@ public class GiphyServiceImpl extends BaseURLQueryService {
     }
 
     private static int getRandomNumberInRange(final int min, final int max) {
-        Random r = new Random();
+        var r = new Random();
         return r.ints(min, max).findFirst().getAsInt();
     }
 }

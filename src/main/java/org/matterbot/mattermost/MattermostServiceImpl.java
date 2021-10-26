@@ -1,5 +1,11 @@
 package org.matterbot.mattermost;
 
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import lombok.extern.slf4j.Slf4j;
 import org.matterbot.mattermost.types.Attachments;
 import org.matterbot.mattermost.types.MattermostAttachmentMessage;
@@ -10,13 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Response;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -40,10 +39,10 @@ public class MattermostServiceImpl implements MattermostService {
     @Override
     public ResponseEntity<String> sendMessage(final String text) throws IOException {
         MattermostHookData request = MattermostHookData.builder()
-                .icon_url(iconUrl)
-                .username(name)
-                .text(URLDecoder.decode(text, StandardCharsets.UTF_8))
-                .build();
+                                                       .icon_url(iconUrl)
+                                                       .username(name)
+                                                       .text(URLDecoder.decode(text, StandardCharsets.UTF_8))
+                                                       .build();
 
         log.info("REQUEST: " + request.toString());
         Call<String> call = mattermostInHookClient.sendMessage(hookId, request);
@@ -60,21 +59,21 @@ public class MattermostServiceImpl implements MattermostService {
     @Override
     public ResponseEntity<String> sendImage(final String url, final String query) throws IOException {
         var request = MattermostAttachmentMessage.builder()
-                .icon_url(iconUrl)
-                .username(name)
-                .message(URLDecoder.decode(url, StandardCharsets.UTF_8))
-                .attachments(List.of(Attachments.builder()
-                        .title(query)
-                        .title_link(url)
-                        .text(url)
-                        .image_url(url)
-                        .build()))
-                .build();
+                                                 .icon_url(iconUrl)
+                                                 .username(name)
+                                                 .message(URLDecoder.decode(url, StandardCharsets.UTF_8))
+                                                 .attachments(List.of(Attachments.builder()
+                                                                                 .title(query)
+                                                                                 .title_link(url)
+                                                                                 .text(url)
+                                                                                 .image_url(url)
+                                                                                 .build()))
+                                                 .build();
 
         log.info("REQUEST: " + request.toString());
         Call<String> call = mattermostInHookClient.sendAttachmentMessage(hookId, request);
 
-        Response<String> callResult = call.execute();
+        var callResult = call.execute();
         if (callResult.isSuccessful() && callResult.body() != null) {
             return ResponseEntity.ok(callResult.body());
         } else {
