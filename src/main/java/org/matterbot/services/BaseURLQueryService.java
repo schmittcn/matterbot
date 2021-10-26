@@ -12,7 +12,7 @@ import java.io.IOException;
 public abstract class BaseURLQueryService implements URLQueryService {
     protected String queryCall(final Call<String> call, final String jsonPath) {
         try {
-            Response<String> callResult = null;
+            Response<String> callResult;
             callResult = call.execute();
             if (callResult.isSuccessful()) {
                 DocumentContext jsonContext = JsonPath.parse(callResult.body());

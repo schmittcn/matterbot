@@ -4,12 +4,13 @@ import lombok.Builder;
 import lombok.Data;
 import org.matterbot.mattermost.MattermostMessage;
 
+import static org.matterbot.services.Constants.NEWLINE;
+
 @Data
 @Builder
 public class UrbanDictionaryMessageImpl implements MattermostMessage {
     private String description;
     private String caption;
-    private final String NEWLINE = "\n";
 
     @Override
     public String getMessage() {

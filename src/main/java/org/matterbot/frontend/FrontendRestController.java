@@ -9,6 +9,6 @@ public interface FrontendRestController {
     @GetMapping("/")
     String jsIndex(Model model);
 
-    @GetMapping(value = "/vue")
+    @GetMapping("/vue")
     String vueIndex(Model model);
 }
