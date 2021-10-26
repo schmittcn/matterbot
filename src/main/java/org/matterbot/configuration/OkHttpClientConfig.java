@@ -1,5 +1,12 @@
 package org.matterbot.configuration;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import lombok.Data;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -9,15 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 
 @Configuration
 @ConfigurationProperties(prefix = "http.client")
@@ -31,7 +29,7 @@ public class OkHttpClientConfig {
 
     @Bean
     public OkHttpClient getHttpClient() {
-        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        var clientBuilder = new OkHttpClient.Builder();
 
         if (verboseLogging) {
             clientBuilder.addInterceptor(getLogger());
@@ -53,7 +51,7 @@ public class OkHttpClientConfig {
     }
 
     private HttpLoggingInterceptor getLogger() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+        var interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             private final Logger logger = LoggerFactory.getLogger(HttpLoggingInterceptor.class);
 
             @Override
@@ -74,10 +72,10 @@ public class OkHttpClientConfig {
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             throw new RuntimeException(e);
         }
-        SSLSocketFactory trustAllSslSocketFactory = trustAllSslContext.getSocketFactory();
+        var trustAllSslSocketFactory = trustAllSslContext.getSocketFactory();
 
         clientBuilder.sslSocketFactory(trustAllSslSocketFactory, (X509TrustManager) trustAllCerts[0])
-                .hostnameVerifier((hostname, session) -> true);
+                     .hostnameVerifier((hostname, session) -> true);
     }
 
     private static final TrustManager[] trustAllCerts = new TrustManager[]{

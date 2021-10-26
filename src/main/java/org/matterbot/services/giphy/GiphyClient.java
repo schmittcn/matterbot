@@ -13,13 +13,13 @@ public interface GiphyClient {
             @Query("api_key") String api_key,
             @Query("limit") int limit,
             @Query("rating") String rating
-    );
+                            );
 
     @GET("/v1/gifs/trending")
     @Headers("Content-Type: application/json")
     Call<String> getTrending(
             @Query("api_key") String api_key
-    );
+                            );
 
     @GET("/v1/gifs/random")
     @Headers("Content-Type: application/json")
@@ -27,13 +27,13 @@ public interface GiphyClient {
             @Query("api_key") String api_key,
             @Query("tag") String tag,
             @Query("rating") String rating
-    );
+                          );
 
     @GET("/v1/gifs/random")
     @Headers("Content-Type: application/json")
     Call<String> getRandom(
             @Query("api_key") String api_key
-    );
+                          );
 
     @GET("/v1/gifs/search")
     @Headers("Content-Type: application/json")
@@ -45,7 +45,7 @@ public interface GiphyClient {
             @Query("rating") String rating,
             @Query("lang") String lang, //2-letter ISO 639-1 language code
             @Query("fmt") String fmt // format defaults to json
-    );
+                       );
 
     @GET("/v1/gifs/search")
     @Headers("Content-Type: application/json")
@@ -53,5 +53,5 @@ public interface GiphyClient {
             @Query("api_key") String api_key,
             @Query("q") String query,
             @Query("limit") int limit
-    );
+                               );
 }
