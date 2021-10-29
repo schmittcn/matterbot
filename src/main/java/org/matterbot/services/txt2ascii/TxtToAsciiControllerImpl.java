@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
-@RestController
+@Component
 public class TxtToAsciiControllerImpl implements TxtToAsciiController {
     private final URLQueryService txtToAsciiService;
     private final MattermostServiceImpl mattermostServiceImpl;
