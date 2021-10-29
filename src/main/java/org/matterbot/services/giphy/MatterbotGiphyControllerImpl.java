@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +23,7 @@ public class MatterbotGiphyControllerImpl implements MatterbotGiphyController {
         this.giphyService = giphyService;
     }
 
-    @GetMapping("/call/giphy/trending")
+    @Override
     public ResponseEntity<String> postGiphyTrendingMessage() throws IOException {
         var giphyUrl = giphyService.getUrl(URLQueryService.Strategy.TRENDING);
         GiphyMessageImpl giphyMessageImpl = GiphyMessageImpl.builder()
@@ -35,7 +33,7 @@ public class MatterbotGiphyControllerImpl implements MatterbotGiphyController {
         return mattermostServiceImpl.sendMessage(giphyMessageImpl);
     }
 
-    @GetMapping("/call/giphy/random")
+    @Override
     public ResponseEntity<String> postGiphyRandomMessage() throws IOException {
         var giphyUrl = giphyService.getUrl(URLQueryService.Strategy.RANDOM);
         return mattermostServiceImpl.sendMessage(GiphyMessageImpl.builder()
@@ -44,11 +42,8 @@ public class MatterbotGiphyControllerImpl implements MatterbotGiphyController {
                 .build());
     }
 
-    @GetMapping("/call/giphy/search")
-    public ResponseEntity<String> postGiphySearchResult(
-            final @RequestParam("query") String query,
-            final @RequestParam(value = "random", required = false, defaultValue = "false") boolean random)
-            throws IOException {
+    @Override
+    public ResponseEntity<String> postGiphySearchResult(final String query, final boolean random) throws IOException {
         var giphyUrl = "";
         if (random) {
             giphyUrl = giphyService.getUrl(URLQueryService.Strategy.SEARCH_RND, query);
@@ -61,14 +56,13 @@ public class MatterbotGiphyControllerImpl implements MatterbotGiphyController {
                 .build());
     }
 
-    @GetMapping(value = "/call/giphy/search2", produces = "application/json")
-    public List<String> postGiphySearchResultList(final @RequestParam("query") String query) {
+    @Override
+    public List<String> postGiphySearchResultList(String query) {
         return giphyService.getUrlList(query);
     }
 
-    @GetMapping("/call/giphy/img")
-    public ResponseEntity<String> postGiphyImage(final @RequestParam("url") String url,
-                                                 final @RequestParam("title") String title) throws IOException {
+    @Override
+    public ResponseEntity<String> postGiphyImage(final String url, final String title) throws IOException {
         return mattermostServiceImpl.sendImage(url, title);
     }
 }
