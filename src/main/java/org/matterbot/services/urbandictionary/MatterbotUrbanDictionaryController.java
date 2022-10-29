@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-public class MatterbotUrbanDictionaryController {
+public interface MatterbotUrbanDictionaryController {
 
     @GetMapping("/call/urbandict/search")
     ResponseEntity<String> postUrbanSearchResult(@RequestParam("query") String query) throws IOException;
